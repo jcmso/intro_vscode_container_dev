@@ -1,0 +1,70 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.166.1/containers/docker-existing-docker-compose
+// If you want to run as a non-root user in the container, see .devcontainer/docker-compose.yml.
+{
+	"name": "Inducción Dev Containers",
+	// Update the 'dockerComposeFile' list if you have more compose files or use different names.
+	// The .devcontainer/docker-compose.yml file contains any overrides you need/want to make.
+	"dockerComposeFile": [
+		"./docker-compose.yml"
+	],
+	// The 'service' property is the name of the service for the container that VS Code should
+	// use. Update this value and .devcontainer/docker-compose.yml to the real service name.
+	"service": "intro_container_dev",
+	// The optional 'workspaceFolder' property is the path VS Code should open by default when
+	// connected. This is typically a file mount in .devcontainer/docker-compose.yml
+	"workspaceFolder": "/home/appadmin/app",
+	// Set *default* container specific settings.json values on container create.
+	"postCreateCommand": "pipenv install --dev",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-python.python",
+				"ms-python.flake8",
+				"ms-python.black-formatter",
+				"aaron-bond.better-comments",
+				"formulahendry.code-runner",
+				"oderwat.indent-rainbow",
+				"2gua.rainbow-brackets",
+				"njpwerner.autodocstring",
+				"frhtylcn.pythonsnippets",
+				"ms-vsliveshare.vsliveshare",
+				"mechatroner.rainbow-csv",
+				"gruntfuggly.todo-tree"
+			],
+			"settings": {
+				//"liveshare.connectionMode": "direct",
+				"code-runner.fileDirectoryAsCwd": true,
+				"code-runner.executorMap": {
+					"python": "$pythonPath -u $fullFileName"
+				},
+				"terminal.integrated.defaultProfile.linux": "bash",
+				"python.pythonPath": "/home/appadmin/app/.venv/bin/python",
+				"python.linting.enabled": true,
+				"python.linting.flake8Enabled": true,
+				"python.linting.flake8Path": "/home/appadmin/app/.venv/bin/flake8",
+				"python.linting.flake8Args": [
+					"max-line-length",
+					"120",
+					"--experimental"
+				],
+				"python.formatting.provider": "none",
+				"python.formatting.blackPath": "/home/appadmin/app/.venv/bin/black",
+				"python.formatting.blackArgs": [
+					"--line-length",
+					"120"
+				],
+				"[python]": {
+					"editor.codeActionsOnSave": {
+						"source.organizeImports": true
+					},
+					"editor.defaultFormatter": "ms-python.black-formatter"
+				},
+				"isort.args": [
+					"--profile=black"
+				]
+			}
+		}
+	},
+	"remoteUser": "appadmin"
+}
