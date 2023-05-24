@@ -84,7 +84,7 @@ jobs:
           release_name: QA Release ${{ steps.generate_release_tag.outputs.next_release_tag }}
           body: |
             Cambios en este release
-            - Second Change (reemplazar con variables, solo a modo de ejemplo)
+            - primer cambio (reemplazar con variables, solo a modo de ejemplo)
             - Second Change (reemplazar con variables, solo a modo de ejemplo)
           draft: false
           prerelease: false
