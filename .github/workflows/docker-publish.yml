@@ -79,8 +79,8 @@ jobs:
           release_name: QA Release ${{ steps.versioning.outputs.version }}
           body: |
             Cambios en este release
-            - Second Change (reemplazar con variables, solo a modo de ejemplo)
-            - Second Change (reemplazar con variables, solo a modo de ejemplo)
+            - Primer cambio (reemplazar con variables, solo a modo de ejemplo)
+            - Segundo cambio (reemplazar con variables, solo a modo de ejemplo)
           draft: false
           prerelease: false
 
@@ -94,6 +94,6 @@ jobs:
          username: ${{ github.actor }}
          password: ${{ secrets.GITHUB_TOKEN }}
          registry: docker.pkg.github.com
-         repository: ${{ github.repository }}/webnext
+         repository: ${{ github.repository }}/${{ github.run_number }}
          tags: packageversion, ${{ github.run_number }}
           
