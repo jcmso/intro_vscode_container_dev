@@ -85,7 +85,7 @@ jobs:
           prerelease: false
 
 
-          # Se libera un paquete     
+# Se libera un paquete     
       
       
     - name: Publicar en paquete de github
@@ -95,7 +95,5 @@ jobs:
          password: ${{ secrets.GITHUB_TOKEN }}
          registry: docker.pkg.github.com
          repository: ${{ github.repository }}/webnext
-         tags: Package de QA V , ${{ steps.versioning.outputs.version }}
-
-
+         tags: QAVersion, ${{ github.run_number }}
           
