@@ -35,7 +35,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Build the Docker image
+    - name: Construir imagen de docker 
       run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
       
       
@@ -53,7 +53,7 @@ jobs:
          tags: latest, ${{ github.run_number }}
       
       
-    - name: Calculate release name
+    - name: Obtener nombre de release
       run: |
           GITHUB_REF=${{ github.ref }}
           RELEASE_NAME=${GITHUB_REF#"refs/tags/"}
@@ -65,7 +65,7 @@ jobs:
 
 
 
-    - name: Create Release
+    - name: Crear release y subirla
       id: create_release
       uses: actions/create-release@v1
        

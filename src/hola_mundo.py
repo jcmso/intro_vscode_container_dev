@@ -2,5 +2,5 @@ import structlog
 
 logger = structlog.get_logger(__file__)
 
-logger.info("test", contexto="Pruebasssss")
+logger.info("test", contexto="Contexto de prueba")
 
