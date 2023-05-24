@@ -1,0 +1,61 @@
+name: Construir imagen docker (y liberar release)
+
+
+# Aqui esta esperando un evento, en este caso un "push" dentro del branch "qa"
+
+on:
+  push:
+    branches: [ "qa" ]
+  pull_request:
+    branches: [ "qa" ]
+
+jobs:
+
+
+# Build, aqui especificamos en que sistema va a correr, en este caso utilizamos ubuntu-latest, pero podemos
+# utilizar otros sistemas, como windows-latest y macos-latest
+  build:
+
+    runs-on: ubuntu-latest
+
+# Steps, aqui esta lo que hara el sistema cuando ocurra la accion especificada arriba, en el caso de la de
+# abajo, sera construir la imagen docker
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+      
+      
+      
+# Se libera un paquete     
+      
+      
+    - name: Publicar en paquete de github
+      uses: docker/build-push-action@v4
+      with:
+         username: ${{ github.actor }}
+         password: ${{ secrets.GITHUB_TOKEN }}
+         registry: docker.pkg.github.com
+         repository: ${{ github.repository }}/webnext
+         tags: latest, ${{ github.run_number }}
+      
+      
+      
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+      with:
+          tag_name: ${{ github.ref }}
+          release_name: QA Release ${{ github.ref }}
+          body: |
+            Cambios en este release
+            - Second Change (reemplazar con variables, solo a modo de ejemplo)
+            - Second Change (reemplazar con variables, solo a modo de ejemplo)
+          draft: false
+          prerelease: false
+      
+      
+
