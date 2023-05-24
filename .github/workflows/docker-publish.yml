@@ -40,17 +40,7 @@ jobs:
       
       
       
-# Se libera un paquete     
-      
-      
-    - name: Publicar en paquete de github
-      uses: docker/build-push-action@v4
-      with:
-         username: ${{ github.actor }}
-         password: ${{ secrets.GITHUB_TOKEN }}
-         registry: docker.pkg.github.com
-         repository: ${{ github.repository }}/webnext
-         tags: latest, ${{ github.run_number }}
+
       
     
       
@@ -93,6 +83,19 @@ jobs:
             - Second Change (reemplazar con variables, solo a modo de ejemplo)
           draft: false
           prerelease: false
+
+
+          # Se libera un paquete     
+      
+      
+    - name: Publicar en paquete de github
+      uses: docker/build-push-action@v4
+      with:
+         username: ${{ github.actor }}
+         password: ${{ secrets.GITHUB_TOKEN }}
+         registry: docker.pkg.github.com
+         repository: ${{ github.repository }}/webnext
+         tags: Package de QA V , ${{ steps.versioning.outputs.version }}
 
 
           
