@@ -95,5 +95,5 @@ jobs:
          password: ${{ secrets.GITHUB_TOKEN }}
          registry: docker.pkg.github.com
          repository: ${{ github.repository }}/webnext
-         tags: QAVersion, ${{ github.run_number }}
+         tags: packageversion, ${{ github.run_number }}
           
