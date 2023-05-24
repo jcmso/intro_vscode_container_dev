@@ -53,11 +53,11 @@ jobs:
          tags: latest, ${{ github.run_number }}
       
       
-    - name: Obtener nombre de release
-      run: |
-          GITHUB_REF=${{ github.ref }}
-          RELEASE_NAME=${GITHUB_REF#"refs/tags/"}
-          echo "RELEASE_NAME=${RELEASE_NAME}" >> $GITHUB_ENV
+    #- name: Obtener nombre de release
+     # run: |
+      #    GITHUB_REF=${{ github.ref }}
+       #   RELEASE_NAME=${GITHUB_REF#"refs/tags/"}
+        #  echo "RELEASE_NAME=${RELEASE_NAME}" >> $GITHUB_ENV
 
 
 
