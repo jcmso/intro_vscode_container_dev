@@ -5,11 +5,13 @@ name: Construir imagen docker (y liberar release)
 
 on:
   push:
-   tags:
-      - 'v*'
+   
     branches: [ "qa" ]
   pull_request:
     branches: [ "qa" ]
+
+    tags:
+      - 'v*'
 
 
 permissions:
