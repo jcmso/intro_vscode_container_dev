@@ -72,7 +72,7 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         DRY_RUN: true
 
-    - name: echo new tag
+    - name: Crear variable del nuevo tag
       run: |
         echo "The next tag version will be: ${{ steps.taggerDryRun.outputs.new_tag }}"
 
