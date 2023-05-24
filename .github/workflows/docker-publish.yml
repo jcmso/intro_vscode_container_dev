@@ -79,6 +79,7 @@ jobs:
             Cambios en este release
             - Second Change (reemplazar con variables, solo a modo de ejemplo)
             - Second Change (reemplazar con variables, solo a modo de ejemplo)
+          allowUpdates: true
           draft: false
           prerelease: false
 
