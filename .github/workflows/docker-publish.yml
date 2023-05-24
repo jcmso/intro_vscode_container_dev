@@ -53,8 +53,8 @@ jobs:
          tags: latest, ${{ github.run_number }}
       
       
-      - name: Calculate release name
-        run: |
+    - name: Calculate release name
+      run: |
           GITHUB_REF=${{ github.ref }}
           RELEASE_NAME=${GITHUB_REF#"refs/tags/"}
           echo "RELEASE_NAME=${RELEASE_NAME}" >> $GITHUB_ENV
@@ -74,7 +74,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
       with:
           tag_name: ${{ github.ref }}
-          release_name: QA Release ${{ github.ref }}
+          release_name: QA Release ${{ env.RELEASE_NAME }}
           body: |
             Cambios en este release
             - Second Change (reemplazar con variables, solo a modo de ejemplo)
