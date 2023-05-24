@@ -52,6 +52,7 @@ jobs:
          repository: ${{ github.repository }}/webnext
          tags: latest, ${{ github.run_number }}
       
+    
       
     #- name: Obtener nombre de release
      # run: |
@@ -62,13 +63,13 @@ jobs:
 
 
       
-        
-        - name: Generar numero de release autoincrementable  
-      id: taggerDryRun
-      uses: anothrNick/github-tag-action@1.36.0
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        WITH_V: true
+    - name: Auto Incrementar version de tag
+      uses: MCKanpolat/auto-semver-action@v1
+      id: versioning
+      with:
+        releaseType: patch 
+        incrementPerCommit: false
+        github_token: ${{ secrets.GITHUB_TOKEN }}
         DRY_RUN: true
 
     - name: echo new tag
@@ -84,8 +85,8 @@ jobs:
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
       with:
-          tag_name: ${{ steps.taggerDryRun.outputs.new_tag }}
-          release_name: QA Release ${{ steps.taggerDryRun.outputs.new_tag }}
+          tag_name: ${{ steps.versioning.outputs.version }}
+          release_name: QA Release ${{ steps.versioning.outputs.version }}
           body: |
             Cambios en este release
             - Second Change (reemplazar con variables, solo a modo de ejemplo)
@@ -95,5 +96,3 @@ jobs:
 
 
           
-      
-      
