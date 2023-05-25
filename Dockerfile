@@ -74,7 +74,7 @@ USER ${USERNAME}
 
 ENV PIPENV_VENV_IN_PROJECT=1
 
-COPY ./src /home/${USERNAME}/app
+COPY ./src /home/${USERNAME}/app/
 COPY Pipfile /home/${USERNAME}/app
 
 WORKDIR /home/${USERNAME}/app
