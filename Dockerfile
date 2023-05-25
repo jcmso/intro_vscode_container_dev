@@ -63,7 +63,7 @@ ENV PATH="/home/${USERNAME}/app/.venv/bin:${PATH}"
 # PRODUCTION IMAGE
 #
 #==============================================================================
-FROM base as deploy_image
+FROM develop_image as deploy_image
 
 ARG USERNAME=appadmin
 
