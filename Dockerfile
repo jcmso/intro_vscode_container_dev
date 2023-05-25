@@ -55,8 +55,10 @@ RUN mkdir -p /home/${USERNAME}/app \
     /home/${USERNAME}/.vscode-server \
     /home/${USERNAME}/.vscode-server-insiders
 
+
+COPY . /home/${USERNAME}/app 
 WORKDIR /home/${USERNAME}/app
-COPY . /src/usr/src/app
+
 
 ENV PATH="/home/${USERNAME}/app/.venv/bin:${PATH}"
 
@@ -69,7 +71,7 @@ FROM develop_image as deploy_image
 ARG USERNAME=appadmin
 
 USER ${USERNAME}
-COPY . /src/usr/src/app
+
 COPY --from=develop_image /home/${USERNAME}/app /home/${USERNAME}/app
 
 WORKDIR /home/${USERNAME}/app
