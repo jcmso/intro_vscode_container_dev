@@ -56,6 +56,7 @@ RUN mkdir -p /home/${USERNAME}/app \
     /home/${USERNAME}/.vscode-server-insiders
 
 WORKDIR /home/${USERNAME}/app
+COPY ./src /usr/src/app
 
 ENV PATH="/home/${USERNAME}/app/.venv/bin:${PATH}"
 
