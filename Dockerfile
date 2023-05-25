@@ -56,7 +56,7 @@ RUN mkdir -p /home/${USERNAME}/app \
     /home/${USERNAME}/.vscode-server-insiders
 
 
-COPY . /home/${USERNAME}/app 
+# COPY . /home/${USERNAME}/app 
 WORKDIR /home/${USERNAME}/app
 
 
@@ -72,7 +72,12 @@ ARG USERNAME=appadmin
 
 USER ${USERNAME}
 
-COPY --from=develop_image /home/${USERNAME}/app /home/${USERNAME}/app
+ENV PIPENV_VENV_IN_PROJECT=1
+
+COPY ./src /home/${USERNAME}/app
+COPY Pipfile /home/${USERNAME}/app
 
 WORKDIR /home/${USERNAME}/app
+RUN pipenv install
+
 ENV PATH="/home/${USERNAME}/app/.venv/bin:${PATH}"
