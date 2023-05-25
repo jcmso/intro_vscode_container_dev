@@ -36,7 +36,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Construir imagen de docker 
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+      run: docker build . --target deploy_image --file Dockerfile --tag my-image-name:$(date +%s)
       
       
       
