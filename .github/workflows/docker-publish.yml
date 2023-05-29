@@ -5,11 +5,23 @@ name: Construir imagen docker (y liberar release)
 
 on:
   push:
+   
     branches: [ "qa" ]
   pull_request:
     branches: [ "qa" ]
 
+    tags:
+      - '1.0'
+
+
+permissions:
+  contents: write
+  pull-requests: write 
+  issues: read
+  packages: write
+
 jobs:
+
 
 
 # Build, aqui especificamos en que sistema va a correr, en este caso utilizamos ubuntu-latest, pero podemos
@@ -23,39 +35,145 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+    - name: Construir imagen de docker 
+      run: docker build . --target deploy_image --file Dockerfile --tag my-image-name:$(date +%s)
       
       
       
+
+      
+    
+      
+    #- name: Obtener nombre de release
+     # run: |
+      #    GITHUB_REF=${{ github.ref }}
+       #   RELEASE_NAME=${GITHUB_REF#"refs/tags/"}
+        #  echo "RELEASE_NAME=${RELEASE_NAME}" >> $GITHUB_ENV
+
+    
+
+      
+    - name: Auto Incrementar version de tag
+      uses: MCKanpolat/auto-semver-action@v1
+      id: versioning
+      with:
+        releaseType: patch 
+        incrementPerCommit: false
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        DRY_RUN: true
+
+    - name: Crear variable del nuevo tag
+      run: |
+        echo "The next tag version will be: ${{ steps.taggerDryRun.outputs.new_tag }}"
+
+
+    - name: Crear release y subirla
+      id: create_release
+      uses: actions/create-release@v1
+       
+
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+      with:
+          tag_name: ${{ steps.versioning.outputs.version }}
+          release_name: QA Release ${{ steps.versioning.outputs.version }}
+          body: |
+            Cambios en este release
+            - Primer cambio (reemplazar con variables, solo a modo de ejemplo)
+            - Segundo cambio (reemplazar con variables, solo a modo de ejemplo)
+          draft: false
+          prerelease: false
+
+
+
+ 
+      
+       
+
+
+
 # Se libera un paquete     
       
       
     - name: Publicar en paquete de github
-      uses: docker/build-push-action@v4
+      uses: docker/build-push-action@v1
       with:
          username: ${{ github.actor }}
          password: ${{ secrets.GITHUB_TOKEN }}
          registry: docker.pkg.github.com
-         repository: ${{ github.repository }}/webnext
+         repository: ${{ github.repository }}${{steps.versioning.outputs.version }}/qa
          tags: latest, ${{ github.run_number }}
+
+    
+
+    
+
+
+
+  #  - name: Log in to the Container registry
+   #   uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+    #  with:
+     #    username: ${{ github.actor }}
+      #   password: ${{ secrets.GITHUB_TOKEN }}
+       #  registry: ${{ env.REGISTRY }} 
+
+
+
+    #- name: Extract metadata (tags, labels) for Docker
+     # id: meta
+      #uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
+      #with:
+       #  images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+        # tags: |
+         #   type=ref,event=branch
+          #  type=sha
+     
+
+   # - name: Build and push Docker image
+    #  uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+     # with:
+      #   context: .
+       #  push: true
+        # tags: ${{ steps.meta.outputs.tags }}
+         #labels: ${{ steps.meta.outputs.labels }}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       
+
+
+
+# Se libera un paquete     
       
       
-      
-    - name: Create Release
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
-      with:
-          tag_name: ${{ github.ref }}
-          release_name: QA Release ${{ github.ref }}
-          body: |
-            Cambios en este release
-            - Second Change (reemplazar con variables, solo a modo de ejemplo)
-            - Second Change (reemplazar con variables, solo a modo de ejemplo)
-          draft: false
-          prerelease: false
-      
-      
+  #  - name: Publicar en paquete de github
+  #    uses: macbre/push-to-ghcr@master
+  #    with:
+  #       image_name: ${{ github.repository }}
+  #       github_token: ${{ secrets.GITHUB_TOKEN }}
+       
+          
+
+       
+          
 
